@@ -31,7 +31,35 @@ class SecondViewController: UIViewController {
         super.viewDidLoad()
         imageView.contentMode = .scaleAspectFill
         fetchImage()
+        delay(3) {
+            self.alertLogin()
+        }
     }
+    
+    
+    fileprivate func delay(_ delay: Int, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            closure()
+        }
+    }
+    
+    fileprivate func alertLogin() {
+        let ac = UIAlertController(title: "Зарегестрированы?", message: "Введите ваш логин и пароль", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .default)
+        ac.addAction(okAction)
+        ac.addAction(cancelAction)
+        ac.addTextField { (userNameTF) in
+            userNameTF.placeholder = "Введите логин"
+        }
+        ac.addTextField { (userPasswordTF) in
+            userPasswordTF.placeholder = "Введите пароль"
+            userPasswordTF.isSecureTextEntry = true
+        }
+        self.present(ac, animated: true)
+    }
+    
+    
     
     fileprivate func fetchImage() {
         imageURL = URL(string: "https://thumbs.dreamstime.com/b/leaf-hd-shots-glorious-pic-best-smartphone-wallpaper-120270449.jpg")
@@ -44,7 +72,7 @@ class SecondViewController: UIViewController {
                 self.image = UIImage(data: imageData)
             }
         }
-       
+        
     }
 }
 
